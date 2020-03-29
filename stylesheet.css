@@ -18,6 +18,9 @@ body {
   text-align: center;
   padding:20px 0 50px 0;
 }
+.dice-contents{
+  height:300px;
+}
 .left-contents{
   float:left;
   width:50%;
@@ -51,4 +54,21 @@ p{
 img{
   width:150px;
   height:150px;
+}
+.squares{
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+.square {
+  display:inline-block;
+  width: 20%;
+  height: 200px;
+  background-color: gray;
+  margin:1px;
+  text-align: center;
+  line-height: 200px;
+  font-size:40px;
+  color:white;
+
 }

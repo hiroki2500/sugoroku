@@ -13,7 +13,7 @@ let diceImg;
 
     //出目を取得+表示
     diceNum =  Math.floor( Math.random()*(diceMax +1 - diceMin)) + diceMin;
-    $(`img`).attr(`src`, `${diceNum}_images.jpg`);
+    $(`img`).attr(`src`, `${diceNum}.png`);
 
     //投げた回数
     countNum ++;

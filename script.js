@@ -3,10 +3,14 @@ $(function(){
 let countNum = 1;
 let diceNum;
 let diceSum = 0;
+let diceSumId = ("square" + diceSum)
 let leftVal = 100;
 let diceMax = 6;
 let diceMin = 1;
 let diceImg;
+
+//初期画面
+document.getElementById(diceSumId).innerHTML = `<i class="fas fa-car-side"></i>`;
 
 //サイコロを投げた時の処理
   $(`#rollDice`).click(function(){
@@ -23,6 +27,11 @@ let diceImg;
     leftVal = leftVal - diceNum;
     $(`#leftValue`).text(`ゴールまであと${leftVal}マス`);
 
+    //コマの動作
+    document.getElementById(diceSumId).innerHTML = "";
+    diceSum = 100 -leftVal;
+    diceSumId = ("square" + diceSum);
+    document.getElementById(diceSumId).innerHTML = `<i class="fas fa-car-side"></i>`;
 
     //ゴール判定
     if(leftVal <= 0){

@@ -70,5 +70,13 @@ img{
   line-height: 200px;
   font-size:40px;
   color:white;
-
+  position:relative;
+}
+.fas{
+  font-size:80px;
+  color:red;
+  z-index:10;
+  position:absolute;
+  top:55px;
+  left:70px;
 }

@@ -31,7 +31,9 @@ document.getElementById(diceSumId).innerHTML = `<i class="fas fa-car-side"></i>`
     document.getElementById(diceSumId).innerHTML = "";
     diceSum = 100 -leftVal;
     diceSumId = ("square" + diceSum);
-    document.getElementById(diceSumId).innerHTML = `<i class="fas fa-car-side"></i>`;
+    document.getElementById(diceSumId).innerHTML = `<i id="currentDice" i class="fas fa-car-side"></i>`;
+    let element = document.getElementById('currentDice');
+    element.scrollIntoView({behavior: 'auto',inline: 'center'});
 
     //ゴール判定
     if(leftVal <= 0){

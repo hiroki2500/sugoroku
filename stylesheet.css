@@ -64,19 +64,25 @@ img{
   display:inline-block;
   width: 20%;
   height: 200px;
-  background-color: gray;
   margin:1px;
+  background-color: #FFF8DC;
+  color:#FFFAFA;
+  border:groove 1px #666666;
+  text-shadow: 3px 2px 2px #808080;
   text-align: center;
-  line-height: 200px;
+  line-height: 80px;
   font-size:40px;
-  color:white;
   position:relative;
 }
+.event-square{
+  background-color: #FFDEAD;
+}
 .fas{
-  font-size:80px;
+  padding-right: 80px;
   color:red;
+  font-size:80px;
   z-index:10;
   position:absolute;
-  top:55px;
+  top:85px;
   left:70px;
 }

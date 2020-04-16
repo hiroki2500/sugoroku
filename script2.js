@@ -8,6 +8,8 @@ let leftVal = 100; //残りのマス
 let diceMax = 6; //サイコロの目の最大値
 let diceMin = 1; //サイコロの目の最小値
 let diceImg; //サイコロの画像
+let moveNumMax = 4; //イベントで動く最大値
+let moveNumMin = 1; //イベントで動く最小値
 
 
 
@@ -23,7 +25,6 @@ function diceDisplay(){
 
 //コマを進める動作
 function forwardMotion(){
-
   leftVal = leftVal - diceNum;
   diceSum = 100 -leftVal;
 
@@ -59,13 +60,39 @@ function forwardMotion(){
 
 //イベント発生時の動作
 function eventOccurrence(){
-  if(document.getElementById('diceSumId').classList.contains('event')){
-    leftVal = 100;
+  if(document.getElementById(diceSumId).classList.contains('event')){
+    forwardEvent();
   }
 };
 
+//進むイベント
+function forwardEvent(){
+  moveNum =  Math.floor( Math.random()*(moveNumMax +1 - moveNumMin)) + moveNumMin;
+  $(`#eventInfo`).text(`イベント発生！${moveNum}マス進む`);
+  setTimeout(deleteInfo, 1300);
+  setTimeout(forwardEventSquare, 1500);
+}
 
 
+//イベント発生の情報を消去
+function deleteInfo(){
+  $(`#eventInfo`).text(``);
+}
+
+function forwardEventSquare(){
+  leftVal = leftVal - moveNum;
+  diceSum = 100 -leftVal;
+
+    //情報取得＋表示
+    $(`#leftValue`).text(`ゴールまであと${leftVal}マス`);
+    //コマの動作
+    document.getElementById(diceSumId).innerHTML = "";
+    diceSumId = ("square" + diceSum);
+    document.getElementById(diceSumId).innerHTML = `<i id="currentPosition" i class="fas fa-car-side"></i>`;
+    let element = document.getElementById('currentPosition');
+    element.scrollIntoView({behavior: 'smooth',inline: 'center'}
+  );
+}
 
 //サイコロを投げた時の処理
 $(`#rollDice`).click(function(){

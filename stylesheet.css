@@ -79,10 +79,16 @@ img{
 }
 .fas{
   padding-right: 80px;
-  color:red;
   font-size:80px;
-  z-index:10;
   position:absolute;
   top:85px;
   left:70px;
+}
+.playerIcon1{
+  color:red;
+  z-index:20;
+}
+.playerIcon2{
+  color:blue;
+  z-index:10;
 }

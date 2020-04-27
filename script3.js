@@ -1,5 +1,6 @@
 $(function(){
 
+//変数
 //player1
 let countNum1 = 0; //振った回数
 let diceNum1; //出目
@@ -34,14 +35,14 @@ function diceDisplay1(){
   diceNum1 =  Math.floor( Math.random()*(diceMax +1 - diceMin)) + diceMin;
   $(`img`).attr(`src`, `${diceNum1}.png`);
   }
+
 function diceDisplay2(){
   diceNum2 =  Math.floor( Math.random()*(diceMax +1 - diceMin)) + diceMin;
   $(`img`).attr(`src`, `${diceNum2}.png`);
   }
 
 
-
-//コマを進める動作
+//コマを進める動作（プレイヤー1）
 function forwardMotion1(){
   leftVal1 = leftVal1 - diceNum1;
   diceSum1 = 100 -leftVal1;
@@ -57,14 +58,15 @@ function forwardMotion1(){
     diceSumId1 = ("square" + diceSum1);
     document.getElementById(diceSumId1).insertAdjacentHTML('afterbegin', '<i id="currentPosition1" class="fas fa-car-side playerIcon1"></i>');
     let element = document.getElementById('currentPosition1');
-    element.scrollIntoView({behavior: 'smooth',inline: 'center'}
-  );
+    element.scrollIntoView({behavior: 'smooth',inline: 'center'});
+    setTimeout(turnPlayer2, 2000);
 
   }else{
     //情報の表示（ゴール）
     $(`#count`).text(``);
     $(`#leftValue`).text(`ゴールまであと0マス`);
-    $(`#goal`).text(`ゴール！！！`);
+    $(`#goal`).text(`ゴール！！！プレイヤー1の勝利`);
+    $(`.span`).attr(`id`, ``);
 
     //コマの動作(ゴール)
     document.getElementById(diceSumId1).innerHTML = document.getElementById(diceSumId1).innerHTML.replace('<i id="currentPosition1" class="fas fa-car-side playerIcon1"></i>','');
@@ -76,7 +78,7 @@ function forwardMotion1(){
     }
   };
 
-//コマを進める動作
+//コマを進める動作(プレイヤー2)
 function forwardMotion2(){
   leftVal2 = leftVal2 - diceNum2;
   diceSum2 = 100 -leftVal2;
@@ -92,14 +94,16 @@ function forwardMotion2(){
     diceSumId2 = ("square" + diceSum2);
     document.getElementById(diceSumId2).insertAdjacentHTML('afterbegin', '<i id="currentPosition2" class="fas fa-car-side playerIcon2"></i>');
     let element = document.getElementById('currentPosition2');
-    element.scrollIntoView({behavior: 'smooth',inline: 'center'}
-  );
+    element.scrollIntoView({behavior: 'smooth',inline: 'center'});
+    setTimeout(turnPlayer1, 2000);
+
 
   }else{
     //情報の表示（ゴール）
     $(`#count`).text(``);
     $(`#leftValue`).text(`ゴールまであと0マス`);
-    $(`#goal`).text(`ゴール！！！`);
+    $(`#goal`).text(`ゴール！！！プレイヤー2の勝利`);
+    $(`.span`).attr(`id`, ``);
 
     //コマの動作(ゴール)
     document.getElementById(diceSumId2).innerHTML = document.getElementById(diceSumId2).innerHTML.replace('<i id="currentPosition2" class="fas fa-car-side playerIcon2"></i>','');
@@ -111,6 +115,145 @@ function forwardMotion2(){
     }
   };
 
+//プレイヤー交代（1→2）
+function turnPlayer2(){
+  $(`#turn`).text(`プレイヤー2のターン`)
+  let element = document.getElementById('currentPosition2');
+  element.scrollIntoView({behavior: 'smooth',inline: 'center'});
+  }
+
+//プレイヤー交代（2→1）
+function turnPlayer1(){
+  $(`#turn`).text(`プレイヤー1のターン`)
+  let element = document.getElementById('currentPosition1');
+  element.scrollIntoView({behavior: 'smooth',inline: 'center'});
+}
+
+//イベント発生時の動作（プレイヤー1）
+function eventOccurrence1(){
+  if(document.getElementById(diceSumId1).classList.contains('event')){
+    selectEvent1();
+  }
+};
+
+function selectEvent1(){
+  selectNum = Math.floor( Math.random()*2)
+  if(selectNum === 1){forwardEvent1()}
+  else{backwardEvent1()}
+};
+
+//進むイベント
+//進むマスをランダムに決定＋表示
+function forwardEvent1(){
+  forwardMoveNum1 =  Math.floor( Math.random()*(forwardMoveNumMax +1 - forwardMoveNumMin)) + forwardMoveNumMin;
+  $(`#eventInfo`).text(`イベント発生！ +${forwardMoveNum1}マス`);
+  setTimeout(deleteInfo, 1300);
+  setTimeout(forwardEventSquare1, 1500);
+}
+//イベント時のコマの進む動作
+function forwardEventSquare1(){
+  leftVal1 = leftVal1 - forwardMoveNum1;
+  diceSum1 = 100 -leftVal1;
+
+    //情報取得＋表示
+    $(`#leftValue1`).text(`ゴールまであと${leftVal1}マス`);
+    //コマの動作
+    document.getElementById(diceSumId1).innerHTML = document.getElementById(diceSumId1).innerHTML.replace('<i id="currentPosition1" class="fas fa-car-side playerIcon1"></i>','');
+    diceSumId1 = ("square" + diceSum1);
+    document.getElementById(diceSumId1).insertAdjacentHTML('afterbegin', '<i id="currentPosition1" class="fas fa-car-side playerIcon1"></i>');
+    let element = document.getElementById('currentPosition1');
+    element.scrollIntoView({behavior: 'smooth',inline: 'center'}
+  );
+}
+
+//戻るイベント
+//戻るマスをランダムに決定＋表示
+function backwardEvent1(){
+  backwardMoveNum1 =  Math.floor( Math.random()*(backwardMoveNumMax +1 - backwardMoveNumMin)) + backwardMoveNumMin;
+  $(`#eventInfo`).text(`イベント発生！ ${backwardMoveNum1}マス`);
+  setTimeout(deleteInfo, 1300);
+  setTimeout(backwardEventSquare1, 1500);
+}
+//イベント時のコマの進む動作
+function backwardEventSquare1(){
+  leftVal1 = leftVal1 - backwardMoveNum1;
+  diceSum1 = 100 -leftVal1;
+
+    //情報取得＋表示
+    $(`#leftValue1`).text(`ゴールまであと${leftVal1}マス`);
+    //コマの動作
+    document.getElementById(diceSumId1).innerHTML = document.getElementById(diceSumId1).innerHTML.replace('<i id="currentPosition1" class="fas fa-car-side playerIcon1"></i>','');
+    diceSumId1 = ("square" + diceSum1);
+    document.getElementById(diceSumId1).insertAdjacentHTML('afterbegin', '<i id="currentPosition1" class="fas fa-car-side playerIcon1"></i>');
+    let element = document.getElementById('currentPosition1');
+    element.scrollIntoView({behavior: 'smooth',inline: 'center'}
+  );
+}
+
+//イベント発生時の動作（プレイヤー2）
+function eventOccurrence2(){
+  if(document.getElementById(diceSumId2).classList.contains('event')){
+    selectEvent2();
+  }
+};
+
+function selectEvent2(){
+  selectNum = Math.floor( Math.random()*2)
+  if(selectNum === 1){forwardEvent2()}
+  else{backwardEvent2()}
+};
+
+//進むイベント
+//進むマスをランダムに決定＋表示
+function forwardEvent2(){
+  forwardMoveNum2 =  Math.floor( Math.random()*(forwardMoveNumMax +1 - forwardMoveNumMin)) + forwardMoveNumMin;
+  $(`#eventInfo`).text(`イベント発生！ +${forwardMoveNum2}マス`);
+  setTimeout(deleteInfo, 1300);
+  setTimeout(forwardEventSquare2, 1500);
+}
+//イベント時のコマの進む動作
+function forwardEventSquare2(){
+  leftVal2 = leftVal2 - forwardMoveNum2;
+  diceSum2 = 100 -leftVal2;
+
+    //情報取得＋表示
+    $(`#leftValue2`).text(`ゴールまであと${leftVal2}マス`);
+    //コマの動作
+    document.getElementById(diceSumId2).innerHTML = document.getElementById(diceSumId2).innerHTML.replace('<i id="currentPosition2" class="fas fa-car-side playerIcon2"></i>','');
+    diceSumId2 = ("square" + diceSum2);
+    document.getElementById(diceSumId2).insertAdjacentHTML('afterbegin', '<i id="currentPosition2" class="fas fa-car-side playerIcon2"></i>');
+    let element = document.getElementById('currentPosition2');
+    element.scrollIntoView({behavior: 'smooth',inline: 'center'}
+  );
+}
+
+//戻るイベント
+//戻るマスをランダムに決定＋表示
+function backwardEvent2(){
+  backwardMoveNum2 =  Math.floor( Math.random()*(backwardMoveNumMax +1 - backwardMoveNumMin)) + backwardMoveNumMin;
+  $(`#eventInfo`).text(`イベント発生！ ${backwardMoveNum2}マス`);
+  setTimeout(deleteInfo, 1300);
+  setTimeout(backwardEventSquare2, 1500);
+}
+//イベント時のコマの進む動作
+function backwardEventSquare2(){
+  leftVal2 = leftVal2 - backwardMoveNum2;
+  diceSum2 = 100 -leftVal2;
+
+    //情報取得＋表示
+    $(`#leftValue2`).text(`ゴールまであと${leftVal2}マス`);
+    //コマの動作
+    document.getElementById(diceSumId2).innerHTML = document.getElementById(diceSumId2).innerHTML.replace('<i id="currentPosition2" class="fas fa-car-side playerIcon2"></i>','');
+    diceSumId2 = ("square" + diceSum2);
+    document.getElementById(diceSumId2).insertAdjacentHTML('afterbegin', '<i id="currentPosition2" class="fas fa-car-side playerIcon2"></i>');
+    let element = document.getElementById('currentPosition2');
+    element.scrollIntoView({behavior: 'smooth',inline: 'center'}
+  );
+}
+//イベント発生の情報を消去
+function deleteInfo(){
+  $(`#eventInfo`).text(``);
+}
 
 //サイコロを投げた時の処理
 $(`#rollDice`).click(function(){
@@ -118,10 +261,11 @@ $(`#rollDice`).click(function(){
   if(totalCountNum % 2 !== 0){
     diceDisplay1();
     forwardMotion1();
+    eventOccurrence1();
   }else{
     diceDisplay2();
     forwardMotion2();
+    eventOccurrence2();
   }
 });
-
 });
